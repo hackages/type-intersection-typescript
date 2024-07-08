@@ -1,22 +1,16 @@
+import { UserInfo } from "./type";
+import { sendEmail, sendText } from "./message";
 
-// function
-// name: first
-// argument: collection(number[])
-function first(collection: number[]){
-    if(collection == null){
-        throw new Error("collection is required");
+function sendMessage(userInfo: UserInfo, message: string){
+    switch (userInfo.communicationChannel) {
+        case 'email':
+            sendEmail(message, userInfo.email?.address!)
+            break;
+        case 'phone':
+            sendText(message, userInfo.phone?.number!, userInfo.phone?.countryCode!)
+            break;
+        default:
+            break;
     }
-    return collection[0];
 }
-const array = [1, 2, 3];
-
-first(array); /*?*/
-
-// function => type
-// name: First
-// argument: generics collection (number[])
-type First<collection extends number[]>  = 
-    collection extends number[]? collection[0]: never;
-
-type Result = First<[1, 2, 3]>;
 
